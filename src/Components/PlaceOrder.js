@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import Loader from "./Loader/Loader";
 import data from "./data";
 import axios from "axios";
 import { message } from "antd";
@@ -15,7 +14,6 @@ const PlaceOrder = () => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-//   const handleShow = () => setShow(true);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,9 +41,11 @@ const PlaceOrder = () => {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
-      if (response.status === 201) {
+      if(response?.data.status === "success") {
         message.success("Your Order Placed Successfully");
         setLoading(false);
+      }else{
+        message.error("User Id not found");
       }
       setLoading(false);
       setQuantity();
@@ -67,7 +67,7 @@ const PlaceOrder = () => {
 
   const handleClick = (list) => {
     if (localStorage.getItem("token")) {
-      console.log(list);
+      // console.log(list);
       setData1(list);
       setShow(true)
     } else {
@@ -180,7 +180,7 @@ const PlaceOrder = () => {
         })}{" "}
       </div>
 
-
+{/* Modal ---------> */}
       <Modal
         show={show} onHide={handleClose}
       >

@@ -35,7 +35,6 @@ const Login = () => {
         message.success("You Have Login Successfully");
         setLoading(false);
         localStorage.setItem("token", response?.data?.data?.access);
-        localStorage.setItem("user_id", response?.data?.user_id);
       }
       setLoading(false);
       navigate("/");

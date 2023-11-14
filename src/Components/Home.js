@@ -1,31 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Chart from "react-apexcharts";
 import CircularProgress from "@mui/material/CircularProgress";
 import Loader from "./Loader/Loader";
 import moment from 'moment';
 import {
-  Box,
-  Button,
-  Card,
-  Chip,
-  Divider,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
   Typography,
 } from "@mui/material";
 
 const Home = () => {
   const [data, setData] = useState([]);
-  const [fromDate, setfromDate] = useState("None");
-  const [toDate, settoDate] = useState("None");
+  const [fromDate, setfromDate] = useState("2017-01-02");
+  const [toDate, settoDate] = useState("2021-12-31");
   const [n50Data, setN50Data] = useState();
   const [nbData, setNbData] = useState();
   const [loading, setLoading] = useState(false);
@@ -33,13 +19,9 @@ const Home = () => {
   const updateSize = () => setSize(window.innerWidth);
   useEffect(() => (window.onresize = updateSize), []);
 
-  let navigate = useNavigate();
-
   useEffect(() => {
     getData();
   }, []);
-  console.log(n50Data, "50");
-  console.log(nbData, "b");
 
   useEffect(() => {
     setN50Data(data.filter((e) => e.instrument_name === "NIFTY 50"));
@@ -49,7 +31,7 @@ const Home = () => {
   const getData = async () => {
     setLoading(true)
     axios
-      .get(`/historical-data?from_date=${fromDate}&to_date=${toDate}`)
+      .get(`/data/historical_price_data/?from_date=${fromDate}&to_date=${toDate}`)
       .then((res) => {
         console.log(res.data);
         setData(res.data);
@@ -64,13 +46,13 @@ const Home = () => {
   const onChangeFromDate = ({ target }) => {
     const newDate = moment(target.value).format('YYYY-MM-DD');
     setfromDate(newDate);
-    console.log(newDate, "from"); //value picked from date picker
+    // console.log(newDate, "from");
   };
 
   const onChangeToDate = ({ target }) => {
     const newDate = moment(target.value).format('YYYY-MM-DD');
     settoDate(newDate);
-    console.log(newDate, "to"); //value picked from date picker
+    // console.log(newDate, "to"); 
   };
 
   const handleData = async () => {
@@ -158,7 +140,7 @@ const Home = () => {
 
           <div class="container  min-vh-30 py-2 column align-items-center justify-content-center">
             <h5 class="row justify-content-center mb-2">
-              Select Time Interval
+              Select Time Interval (between 2017-01-02 - 2021-12-31)
             </h5>
             <div class="row justify-content-center align-items-end gap-2">
               <div class="col-lg-3 col-sm-6">

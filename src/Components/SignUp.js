@@ -4,7 +4,7 @@ import axios from "axios";
 import { message } from "antd";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const SignUp = (props) => {
+const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [cpassword, setCpassword] = useState({cpassword:""});
   const [user, setUser] = useState({
@@ -39,6 +39,7 @@ const SignUp = (props) => {
         const response = await axios.post("/user/register", user);
         if (response.status === 201) {
           message.success("You Have Registerd Successfully");
+          localStorage.setItem("user_id", response?.data?.id);
           setLoading(false);
         }
         setLoading(false);
@@ -61,12 +62,10 @@ const SignUp = (props) => {
   };
 
   const handleChange1 = (e) => {
-    console.log(e, "select");
     setUser({ ...user, user_type: e.target.value });
   };
 
   const handleChange2 = (e) => {
-    console.log(e.target.value, "select");
     setUser({ ...user, broker: e.target.value });
   };
 

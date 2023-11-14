@@ -8,7 +8,11 @@ const Holdings = () => {
   const getHoldings = async () => {
     setLoading(true)
     axios
-      .get(`/portfolio/holdings`)
+      .get(`/portfolio/holdings`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
       .then((res) => {
         console.log(res.data);
         setholdingData(res.data);
@@ -35,7 +39,7 @@ const Holdings = () => {
           Please login to view holdings
         </h3>
       ) : (
-        <div className="row my-3">
+        <div className="row my-3" style={{overflowX: "scroll"}}>
           <h2 className="text-center">Your Holdings</h2>
           {!holdingData || holdingData.status === "fail" ? (
             <p className="text-center">No holdings to display</p>
@@ -80,33 +84,6 @@ const Holdings = () => {
                     })}
                   </tbody>
                 </table>
-                {/* <div className="card-body">
-                      <h5 className="card-title">
-                        Trading Symbol - {list.tradingsymbol}
-                      </h5>
-                      <p className="card-text">Exchange : {list.exchange}</p>
-                      <p className="card-text">Isin : {list.isin}</p>
-                      <p className="card-text">Quantity : {list.quantity}</p>
-                      <p className="card-text">
-                        Authorised Date : {list.authorised_date}
-                      </p>
-                      <p className="card-text">
-                        Average Price : {list.average_price}
-                      </p>
-                      <p className="card-text">
-                        Last Price : {list.last_price}
-                      </p>
-                      <p className="card-text">
-                        Close Price : {list.close_price}
-                      </p>
-                      <p className="card-text">Pnl : {list.pnl}</p>
-                      <p className="card-text">
-                        Day Change : {list.day_change}
-                      </p>
-                      <p className="card-text">
-                        Day Change Percentage : {list.day_change_percentage}
-                      </p>
-                    </div> */}
               </div>
             </>
           )}
